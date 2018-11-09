@@ -5,6 +5,7 @@ import java.net.URI;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
@@ -150,4 +151,38 @@ public class HdfsClient {
 		fs.close();
 
 	}
+	
+	/**
+	 * 是否是文件/目录
+	 * @throws Exception
+	 */
+	@Test
+	public void whetherDiretory() throws Exception{
+		long startTime= System.currentTimeMillis();
+		FileStatus[] fileStatus=fs.listStatus(new Path("/hadoop/demo/"));
+		for(FileStatus fileStatu:fileStatus) {
+			if(fileStatu.isDirectory()) {
+				System.out.println("diretory:"+fileStatu.getPath().getName());
+			}else {
+				System.out.println("file:"+fileStatu.getPath().getName());
+			}
+		}
+		
+		long endTime=System.currentTimeMillis();
+		long usrTime=endTime-startTime;
+		System.out.println("耗时："+usrTime+"ms");
+		fs.close();
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
