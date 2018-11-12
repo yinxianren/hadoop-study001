@@ -1,4 +1,4 @@
-package com.yinxianren.hadoop.reducer;
+package com.yinxianren.hadoop.reducer.combiner;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -13,7 +13,7 @@ public class WordCountDrive {
 	public static void main(String[] args) throws Exception {
 		
 		
-		args=new String[] {"D:\\app\\input\\test001.txt","D:\\app\\output\\test001"};
+		args=new String[] {"D:\\app\\input\\test001.txt","D:\\app\\output\\test008"};
 		
 		Configuration conf=new Configuration();  
 		//1 获取Job对象
@@ -30,10 +30,8 @@ public class WordCountDrive {
 		//5 设置最终数据输出的key和 value类型
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
-        /*  优化hadoop运行效率，产生的效果和 combiner包底下的案例效果是一样的 ；  */
-		//这一步不是必须的，是优化加上去的；
-		job.setCombinerClass(WordCountReduce.class);
-		
+		// 指定需要使用combiner，以及用哪个类作为combiner的逻辑
+		job.setCombinerClass(WordcountCombiner.class);
 		//6 设置输入路径和输出路径
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
